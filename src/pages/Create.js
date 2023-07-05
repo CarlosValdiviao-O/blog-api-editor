@@ -1,7 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { TokenContext } from '../components/TokenContext';
+const serverLink = require('../components/serverLink');
 
 const Create = (props) => {
+    const token = useContext(TokenContext);
+    const navigate = useNavigate();
     const [ title, setTitle ] = useState('');
     const [ sections, setSections ] = useState([]);
     const [ images, setImages ] = useState([]);
@@ -10,10 +14,11 @@ const Create = (props) => {
     const [ postStatus, setPostStatus ] = useState('');
     const [ formatErrors, setFormatErrors ] = useState([]);
     
-    //const fetchGames = async (link) => {
-    //    let games = await getRAWG({link: link});
-    //    return JSON.parse(games.data);
-    //}
+    useEffect(() => {
+        if (!token) {
+            navigate('/login');
+        }
+    }, []);
 
     const addParagraph = () => {
         setSections(state => [...state, {
@@ -49,6 +54,7 @@ const Create = (props) => {
             headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+            "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify(post),
         };
@@ -57,7 +63,7 @@ const Create = (props) => {
         setPostStatus('Posting...');
         setFormatErrors([]);
         try {
-            let res = await fetch('http://localhost:5000/create', fetchOptions);
+            let res = await fetch(`${serverLink}/create`, fetchOptions);
             //If the response is not ok throw an error (for debugging)
             if (!res.ok) {
                 setPostStatus('Something went wrong ><');
@@ -90,7 +96,7 @@ const Create = (props) => {
 
     return (
         <div>
-            <form action='http://localhost:5000/create'>
+            <form>
                 <input type='text' id='title' placeholder='Title'
                     onChange={(e) => {setTitle(e.target.value)}}>
                 </input>

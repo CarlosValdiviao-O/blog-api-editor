@@ -15,7 +15,7 @@ const Home = (props) => {
                 
             </div>
             <Link id='create' to={'/create'}>
-            
+                Create new Post
             </Link>
         </div>
     );
