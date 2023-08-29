@@ -4,18 +4,19 @@ import { TokenContext } from '../components/TokenContext';
 const serverLink = require('../components/serverLink');
 
 const LogIn = (props) => {
-    const { setToken } = props;
+    const { setToken, auth } = props;
     const token = useContext(TokenContext)
     const [ username, setUsername ] = useState(null);
     const [ password, setPassword ] = useState(null);
     const [ loginError, setLoginError ] = useState(null);
     const navigate = useNavigate();
+
     useEffect(() => {
         if (token)
             navigate('/');
     }, []);
+
     const login = async () => {
-        console.log(username);
         let fetchOptions = {
           method: "POST",  
           redirect: 'manual',  
@@ -29,7 +30,6 @@ const LogIn = (props) => {
             password,
           }),
         };
-        console.log(fetchOptions)
         try {
           let res = await fetch(`${serverLink}/login`, fetchOptions);
           //If the response is not ok throw an error (for debugging)
@@ -39,7 +39,8 @@ const LogIn = (props) => {
           }
           //If the response was OK, return the response body.
           let responseData = await res.json();
-          if (responseData.status == 'ok') {
+          if (responseData.status == 'ok') { 
+            await auth.signInWithEmailAndPassword(username, password);
             setToken(responseData.token); 
             navigate('/');
             setLoginError(null);
@@ -55,14 +56,21 @@ const LogIn = (props) => {
       }
 
     return (
-        <div id='login'>
-            <form>
-                <input onChange={(e) => setUsername(e.target.value)} placeholder='username'></input>
-                <input onChange={(e) => setPassword(e.target.value)} placeholder='password'></input>
-                <button type='button' onClick={login}></button>
-            </form>
-            {loginError ? <p>{loginError}</p> : ''}
-        </div>
+      <div id='login'>
+        <h3>Please Log-In before continuing</h3>
+        <form>
+          <div>
+            <label htmlFor='username'>Username:</label>
+            <input type='text' id='username' onChange={(e) => setUsername(e.target.value)} placeholder='username'></input>
+          </div>
+          <div>
+            <label htmlFor='password'>Password:</label>
+            <input type='password' id='password' onChange={(e) => setPassword(e.target.value)} placeholder='password'></input>
+          </div>
+          <button type='button' onClick={login}>Log-In</button>
+        </form>
+        {loginError ? <p className='login-error'>{loginError}</p> : ''}
+      </div>
     );
 };
 

@@ -1,22 +1,63 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Card from '../components/Card';
+import NavBar from '../components/NavBar';
+import { TokenContext } from '../components/TokenContext';
+const serverLink = require('../components/serverLink');
 
-const Home = (props) => {
+const Home = () => {
+
+    const [ posts, setPosts ] = useState(null);
+    const [ deleted, setDeleted ] = useState('');
+    const token = useContext(TokenContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login');
+        }
+        else {
+            const aux = async () => {
+                let data = await fetchPosts();
+                setPosts(data.posts);
+            } 
+            aux();
+        }
+    }, []);
     
-    //const fetchGames = async (link) => {
-    //    let games = await getRAWG({link: link});
-    //    return JSON.parse(games.data);
-    //}
+    const fetchPosts = async () => {
+        let res = await fetch(`${serverLink}/api`, {"headers": {"authorization": `Bearer ${token}`}});
+        return res.json();
+    }
+
+    const removePost = (index) => {
+        let aux = posts;
+        aux.splice(index, 1);
+        setPosts(aux);
+    }
 
     return (
         <div id='home'>
-            <h1 id='greet'>Welcome to My Personal Blog!</h1>
-            <div id='posts'>
-                
+            <NavBar></NavBar>
+            <div className='greet-div'>
+                <h1 className='greet'>Welcome Mr Editor</h1>
             </div>
-            <Link id='create' to={'/create'}>
-                Create new Post
-            </Link>
+            <h3>Posts</h3>
+            <div className='posts'>
+                {posts ? 
+                posts.map((post, index)=> {
+                    return(
+                        <Card post={post} key={index} index={index} setDeleted={setDeleted} removePost={removePost}></Card>
+                    )
+                }):
+                <p>Searching for posts...</p>}  
+                {posts && posts.length == 0 && <p>No posts found</p>}
+            </div>
+            {deleted != '' ? 
+                <div className='message-container'>
+                    <p className='message'>{deleted}</p>
+                </div>
+            : ''}
         </div>
     );
 };
