@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { TokenContext } from '../components/TokenContext';
 import NavBar from '../components/NavBar';
 import { getDownloadURL, ref, deleteObject } from "firebase/storage";
 import Paragraph from '../components/Paragraph';
 import Image from '../components/Image';
+import "../components/Editor.css";
 const serverLink = require('../components/serverLink');
 
 const Editor = (props) => {
-    const { storage} = props;
+    const { storage } = props;
     const token = useContext(TokenContext);
     const navigate = useNavigate();
     const { id } = useParams();
@@ -21,6 +22,10 @@ const Editor = (props) => {
     const [ formatErrors, setFormatErrors ] = useState([]);
     
     useEffect(() => {
+        setPublished(false);
+    }, [ title, sections, images, paragraphs ])
+
+    useEffect(() => {
         if (!token) {
             navigate('/login');
         }
@@ -30,7 +35,9 @@ const Editor = (props) => {
             setSections(data.post.sections);
             setImages(data.post.images);
             setParagraphs(data.post.paragraphs);
-            setPublished(data.post.published);
+            setTimeout(()=> {
+                setPublished(data.post.published);
+            }, 200);
         } 
         aux();
     }, []);
@@ -197,6 +204,7 @@ const Editor = (props) => {
             let responseData = await res.json();
             if (responseData.status === 'saved') {
                 setPostStatus('Saved!'); 
+                setPublished(false);
             }
             else if (responseData.status === 'published') {
                 setPostStatus('Published!');
@@ -231,7 +239,7 @@ const Editor = (props) => {
     return (
         <div>
             <NavBar></NavBar>
-            <form>
+            <form className='editor'>
                 <input type='text' id='title' placeholder='Title' value={title}
                     onChange={(e) => {setTitle(e.target.value)}}>
                 </input>
@@ -249,16 +257,21 @@ const Editor = (props) => {
                             removeHeader={removeHeader} updateFirebaseImage={updateFirebaseImage}/>
                     )
                 })}
-                <button type='button' onClick={addParagraph}>
-                    Add paragraph
-                </button>
-                <button type='button' onClick={addImage}>
-                    Add Image
-                </button>
-                <button type='button' onClick={handlePublish}>
-                    {published ? 'Unpublish' : 'Publish'}
-                </button>
-                <button type='button' onClick={(e) => submitPost('save')}>Save</button>
+                <div className='buttons'>
+                    <button type='button' onClick={addParagraph}>
+                        Add paragraph
+                    </button>
+                    <button type='button' onClick={addImage}>
+                        Add Image
+                    </button>
+                </div>
+                <div className='buttons'>
+                    <Link to={`/post/${id}`}>Preview</Link>
+                    <button type='button' onClick={handlePublish}>
+                        {(published === true) ? 'Unpublish' : 'Publish'}
+                    </button>
+                    <button type='button' onClick={(e) => submitPost('save')}>Save</button>
+                </div>
             </form>
             <ul className='errors'>
                 {formatErrors.map((err, index) => {

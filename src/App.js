@@ -8,6 +8,7 @@ import './components/App.css';
 import 'firebase/compat/storage';
 import 'firebase/compat/auth';
 import firebase from 'firebase/compat/app';
+import Preview from "./pages/Preview";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCDh_-AoS40VaWulGmyqZetAmiGq0hBEZo",
@@ -33,6 +34,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LogIn setToken={setToken} auth={auth}/>}/>
+              <Route path="/post/:id" element={<Preview />} />
               <Route path="/post/:id/update" element={<Editor storage={storage}/>} />
             </Routes>
           </div>

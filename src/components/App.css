@@ -13,7 +13,11 @@ body, html {
     height: 100%;
     width: 100%;
     margin: 0;
-  }
+}
+
+#blog {
+    padding-bottom: 12px;
+}
 
 #login {
     padding: 12px;
@@ -55,6 +59,7 @@ button {
 
 a {
     text-decoration: none;
+    color: black;
 }
 
 .login-error {

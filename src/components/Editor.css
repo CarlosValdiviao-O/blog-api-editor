@@ -1,0 +1,88 @@
+.editor {
+    background-color: white;
+    max-width: 80%;
+    border: 0;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: flex-start;
+}
+
+.editor #title {
+    font-size: xx-large;
+    width: fit-content;
+    align-self: center;
+    text-align: center;
+    border: 0;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.editor > div {
+    width: 100%;
+    position: relative;
+    padding: 2px 2px 6px;
+}
+
+.editor > div .cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.editor textarea {
+    font-size: large;
+    border: 0;
+    margin: 0 4px 4px;
+}
+
+.editor .header {
+    font-size: x-large;
+    border: 0;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.editor .remove-section {
+    background-color: red;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.editor .remove-section:active {
+    box-shadow: 1px 0 rgba(0, 0, 0, 0.4);
+    transform: translateY(2px);
+}
+
+.editor .buttons {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.editor .preview {
+    margin: auto;
+    width: fit-content;
+}
+
+.editor .preview img {
+    min-height: 340px;
+    max-height: 480px;
+}
+
+.editor .errors {
+    color: red;
+    padding: 16px;
+    margin: 16px;
+}
