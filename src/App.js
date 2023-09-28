@@ -9,6 +9,7 @@ import 'firebase/compat/storage';
 import 'firebase/compat/auth';
 import firebase from 'firebase/compat/app';
 import Preview from "./pages/Preview";
+import Footer from "./components/Footer"
 
 firebase.initializeApp({
   apiKey: "AIzaSyCDh_-AoS40VaWulGmyqZetAmiGq0hBEZo",
@@ -38,7 +39,7 @@ function App() {
               <Route path="/post/:id/update" element={<Editor storage={storage}/>} />
             </Routes>
           </div>
-          {/*<Footer/>*/}
+          <Footer />
         </TokenContext.Provider>
     </BrowserRouter>
   );

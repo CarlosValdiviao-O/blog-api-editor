@@ -9,10 +9,13 @@ const Image = (props) => {
     return(
         <div>
             {images[section.index].header !== undefined ? 
-                <input type='text' placeholder='Header' className='header'
-                    value={images[section.index].header}
-                    onChange={(e) => {updateImage(section.index, 'header', e.target.value)}}>
-                </input>
+                <div className='grow-wrap header' data-replicated-value={images[section.index].header}>
+                    <textarea rows={1} placeholder='Header'
+                        value={images[section.index].header}
+                        onChange={(e) => {updateImage(section.index, 'header', e.target.value)}}
+                        onInput={(e) => e.target.parentNode.dataset.replicatedValue = e.target.value}>
+                    </textarea>
+                </div>
                 : ''
             }    
             {images[section.index].url !== undefined ?                        

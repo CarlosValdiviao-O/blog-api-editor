@@ -1,29 +1,35 @@
-.editor {
+.editor, .comments-section {
     background-color: white;
     max-width: 80%;
     border: 0;
-    box-shadow: 2px 2px rgba(0, 0, 0, 0.8);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: flex-start;
 }
 
-.editor #title {
+.editor .title {
     font-size: xx-large;
-    width: fit-content;
+    border: 0;
+    width: 70%;
     align-self: center;
     text-align: center;
-    border: 0;
     margin-bottom: 8px;
     font-weight: bold;
 }
 
-.editor > div {
+.editor .title * {
+    font-size: xx-large;
+    border: 0;
+    text-align: center;
+}
+
+.editor > div, .comment {
     width: 100%;
     position: relative;
     padding: 2px 2px 6px;
 }
 
-.editor > div .cover {
+.editor .cover, .comments .cover {
     position: absolute;
     top: 0;
     left: 0;
@@ -34,20 +40,56 @@
     border-radius: 4px;
 }
 
-.editor textarea {
+.grow-wrap {
+    display: grid;
+}
+
+.grow-wrap::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+
+.grow-wrap > textarea {
+    resize: none;
+    overflow: hidden;
+}
+
+.grow-wrap > textarea,
+.grow-wrap::after {
+  /* Identical styling required!! */
+  border: 1px solid black;
+  padding: 0.5rem;
+  font: inherit;
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.editor .paragraph {
     font-size: large;
     border: 0;
     margin: 0 4px 4px;
 }
 
+.editor .paragraph * {
+    font-size: large;
+    border: 0;    
+}
+
 .editor .header {
     font-size: x-large;
+    width: 100%;
     border: 0;
     margin-bottom: 6px;
     font-weight: bold;
 }
 
-.editor .remove-section {
+.editor .header * {
+    font-size: x-large;
+    font-weight: bold;
+    border: 0;
+}
+
+.editor .remove-section, .comments .remove-comment {
     background-color: red;
     cursor: pointer;
     display: flex;
@@ -58,7 +100,7 @@
     box-shadow: 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-.editor .remove-section:active {
+.editor .remove-section:active, .comments .remove-comment:active {
     box-shadow: 1px 0 rgba(0, 0, 0, 0.4);
     transform: translateY(2px);
 }
@@ -74,15 +116,70 @@
 .editor .preview {
     margin: auto;
     width: fit-content;
+    border: 1px solid grey;
+    margin-bottom: 12px;
 }
 
 .editor .preview img {
-    min-height: 340px;
     max-height: 480px;
+    max-width: 100%;
 }
 
 .editor .errors {
     color: red;
     padding: 16px;
     margin: 16px;
+}
+
+.comments-section {
+    padding: 12px;
+    margin: 12px auto;
+    border-radius: 4px;
+}
+
+.comments-wrapper {
+    width: 100%;
+}
+
+.comments-wrapper h3{
+    padding: 4px;
+}
+
+.comments {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+}
+
+.comment {
+    background-color: lightgrey;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    margin-bottom: 6px;
+    padding: 4px 8px;
+}
+
+.comment h3 {
+    padding: 0;
+    margin: 0;
+    font-size: medium;
+}
+
+.comment p {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.comment .date {
+    text-align: end;
+    font-size: small;
+    color: rgba(0, 0, 0, 0.6);
+    font-style: italic;
+}
+
+.remove-comment {
+    position: absolute;
+    top: 4px;
+    right: 4px;
 }

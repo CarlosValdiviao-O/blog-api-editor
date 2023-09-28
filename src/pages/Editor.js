@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar';
 import { getDownloadURL, ref, deleteObject } from "firebase/storage";
 import Paragraph from '../components/Paragraph';
 import Image from '../components/Image';
+import Comments from '../components/Comments';
 import "../components/Editor.css";
 const serverLink = require('../components/serverLink');
 
@@ -20,6 +21,7 @@ const Editor = (props) => {
     const [ published, setPublished ] = useState(false);
     const [ postStatus, setPostStatus ] = useState('');
     const [ formatErrors, setFormatErrors ] = useState([]);
+    const [ comments, setComments ] = useState([]);
     
     useEffect(() => {
         setPublished(false);
@@ -240,9 +242,12 @@ const Editor = (props) => {
         <div>
             <NavBar></NavBar>
             <form className='editor'>
-                <input type='text' id='title' placeholder='Title' value={title}
-                    onChange={(e) => {setTitle(e.target.value)}}>
-                </input>
+                <div className='grow-wrap title' data-replicated-value={title}>
+                    <textarea rows={1} id='title' placeholder='Title' value={title}
+                        onChange={(e) => {setTitle(e.target.value)}}
+                        onInput={(e) => e.target.parentNode.dataset.replicatedValue = e.target.value}>
+                    </textarea>
+                </div>
                 {sections.map((section, index) => {
                     if (section.contentType === 'paragraph')
                     return(
@@ -280,6 +285,10 @@ const Editor = (props) => {
                     )
                 })}
             </ul>
+            <div className='comments-section'>
+                <Comments id={id} setComments={setComments}
+                    comments={comments} setPostStatus={setPostStatus}/>
+            </div>
             {postStatus !== '' ? 
             <div className='message-container'>
                 <p className='message'>{postStatus}</p>

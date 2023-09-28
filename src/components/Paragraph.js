@@ -10,16 +10,22 @@ const Paragraph = (props) => {
     return(
         <div>
             {paragraphs[section.index].header !== undefined ?
-                <input type='text' placeholder='Header' className='header' 
-                    value={paragraphs[section.index].header}
-                    onChange={(e) => {updateParagraph(section.index, 'header', e.target.value)}}>
-                </input>
+                <div className='grow-wrap header' data-replicated-value={paragraphs[section.index].header}>
+                    <textarea rows={1} placeholder='Header' 
+                        value={paragraphs[section.index].header}
+                        onChange={(e) => {updateParagraph(section.index, 'header', e.target.value)}}
+                        onInput={(e) => e.target.parentNode.dataset.replicatedValue = e.target.value}>
+                    </textarea>
+                </div>
                 : ''
             }
-            <textarea
-                onChange={(e) => {updateParagraph(section.index, 'text', e.target.value)}}
-                placeholder='Think how to begin..' value={paragraphs[section.index].text}>
-            </textarea>
+            <div className='grow-wrap paragraph' data-replicated-value={paragraphs[section.index].text}>
+                <textarea rows={1}
+                    onChange={(e) => {updateParagraph(section.index, 'text', e.target.value)}}
+                    placeholder='Think how to begin..' value={paragraphs[section.index].text}
+                    onInput={(e) => e.target.parentNode.dataset.replicatedValue = e.target.value}>
+                </textarea>
+            </div>
             <div className='buttons'>
                 {paragraphs[section.index].header !== undefined ? 
                     <button

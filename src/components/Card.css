@@ -7,6 +7,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    background-color: white;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
 
 .card * {
@@ -28,15 +30,17 @@
 .card p {
     padding: 6px;
     flex: 1;
+    white-space: pre-wrap;
 }
 
-.card .buttons {
+.buttons {
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
     padding: 8px;
+    margin-bottom: 6px;
 }
 
 .buttons button, .buttons a {
@@ -47,6 +51,7 @@
     cursor: pointer; 
     font-family: sans-serif;
     background-color: #efefef;
+    font-size: large;
 }
 
 .card .buttons a {

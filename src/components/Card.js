@@ -46,9 +46,7 @@ const Card = (props) => {
                 <p>{post.paragraphs.length > 0 ? post.paragraphs[0].text.substring(0, 150) : '???'}</p>
             </Link>    
             <div className='buttons'>
-                <button type='button'>
-                    <Link to={`/post/${post._id}/update`}>Update</Link>
-                </button>
+                <Link to={`/post/${post._id}/update`}>Update</Link>                
                 <button type='button' onClick={() => deletePost(post._id)}>Delete</button>
             </div>            
         </div>
