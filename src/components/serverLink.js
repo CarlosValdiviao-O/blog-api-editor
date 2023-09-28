@@ -1,2 +1,2 @@
-const serverLink = 'http://localhost:5000';
+const serverLink = 'https://blog-api-server-ffez.onrender.com';
 module.exports = serverLink;
