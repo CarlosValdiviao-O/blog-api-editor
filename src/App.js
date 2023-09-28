@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, HashRouter } from "react-router-dom";
 import Editor from "./pages/Editor";
 import Home from "./pages/Home";
 import LogIn from "./pages/LogIn";
@@ -29,7 +29,7 @@ function App() {
   //auth.signInWithEmailAndPassword()
 
   return (
-    <BrowserRouter basename="/">
+    <HashRouter basename="/">
         <TokenContext.Provider value={token}>
           <div id='blog'>
             <Routes>
@@ -41,7 +41,7 @@ function App() {
           </div>
           <Footer />
         </TokenContext.Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
