@@ -43,7 +43,7 @@ const Card = (props) => {
         <div className='card'>
             <Link to={`/post/${post._id}`}>
                 <h3>{post.title ? post.title : "???"}</h3>
-                <p>{post.paragraphs.length > 0 ? post.paragraphs[0].text.substring(0, 150) : '???'}</p>
+                <p>{post.preview ? post.preview : '???'}</p>
             </Link>    
             <div className='buttons'>
                 <Link to={`/post/${post._id}/update`}>Update</Link>                
